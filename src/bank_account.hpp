@@ -7,73 +7,57 @@
 // it is horrible practice
 // also moved declarations to a source file
 
+// Updated by Chase on 10/14/2024
+
 #include "types.hpp"
+#include "transaction.hpp"
 #include <string>
+#include <vector>
 
 // Also added namespace
 namespace Bank
 {
-    // We should use an enum class for types instead of inheritance but I guess this is fine
+    // Forward declare Bank so we can access it here
+    class Bank;
+
+    enum class AccountType
+    {
+        CHECKING,
+        SAVING
+    };
+
     class BankAccount
     {
-    // Moved public up to top
     public:
+        f64 GetBalance() const { return m_balance; }
+        i64  GetAccountId() const { return m_account_id; }
+		const std::string& GetHolderName() const { return m_holder_name; }
+		AccountType GetAccountType() const { return m_account_type; }
+    private:
+        // Private constructors so only Bank can access them
         BankAccount() : m_account_id(0), m_balance(0) {}
-        BankAccount(i32 account_id, f64 balance) : m_account_id(account_id), m_balance(balance) {}
-        // Use default here
-        virtual ~BankAccount() = default;
+        BankAccount(const std::string& holder_name, i64 account_id, AccountType account_type, f64 balance = 0) : m_holder_name(holder_name), m_account_id(account_id), m_account_type(account_type), m_balance(balance) {}
+      
+        // Private methods for Bank to use
+        void SetBalance(f64 balance) { m_balance = balance; }
+		void SetAccountId(i64 account_id) { m_account_id = account_id; }
+		void SetHolderName(const std::string& holder_name) { m_holder_name = holder_name; }
+		void SetAccountType(AccountType account_type) { m_account_type = account_type; }
 
-        // both checkings and savings accounts will have these methods
-        // we might want to make these virtual, since the checkings and savings account classes may have their own implementation
+		void AddTransaction(Transaction transaction) { m_transactions.push_back(transaction); }
+		std::vector<Transaction>& GetTransactions() { return m_transactions; }
+		void DisplayTransactions() const { for (const auto& transaction : m_transactions) { transaction.Display(); } }
+
         void Withdraw(f64 amount);
         void Deposit(f64 amount);
-
-        // pure virtual function, the checking and saving account classess will display their own balance
-        virtual void ViewBalance() const = 0;
-
-        // getters and setters
-        i32  GetAccountId() const;
-        void SetAccountId(i32  accountID);
-        f64 GetBalance() const;
-        void SetBalance(f64 balance);
-
     private:
-        // Changed these to m_ so we dont have to use this-> (which is bad practice)
-        i32 m_account_id;
+        i64 m_account_id;
         f64 m_balance;
-    };
-
-    // child class for checking account
-    class CheckingAccount : public BankAccount
-    {
-    public:
-        // Use default here
-        CheckingAccount() = default;
-        // pass name by const& to avoid copy
-        CheckingAccount(i32 account_id, f64 balance, const std::string& name) : BankAccount(account_id, balance), m_account_holder_name(name) {}
-        // Use default here
-        ~CheckingAccount() override = default;
-
-        void ViewBalance() const;
-        const std::string& GetName() const;
-    private:
-        std::string m_account_holder_name;
-    };
-
-    // child class for saving account
-    class SavingAccount : public BankAccount
-    {
-    public:
-        SavingAccount() = default;
-        // pass name by const& so its not copied
-        SavingAccount(i32 account_id, f64 balance, const std::string& name) : BankAccount(account_id, balance), m_account_holder_name(name) {}
-        // Use default here
-        ~SavingAccount() override = default;
-
-        void ViewBalance() const;
-		const std::string& GetName() const;
-    private:
-		std::string m_account_holder_name;
+        AccountType m_account_type;
+		std::string m_holder_name;
+		std::vector<Transaction> m_transactions;
+        friend class Bank;
+        friend class Transaction;
     };
 }
 

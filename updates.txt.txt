@@ -24,3 +24,7 @@ Camden Kirkpatrick - 9/24/2024
 - Removed the assert in the Transaction constructor to check if the BankAccount pointer is null (changed to a reference)
 - Removed the -> notation used in the Execute method, and changed to dot notation
 - Changed the Execute method in the Transaction class to be private (only accessed by the constructor)
+
+Chase Sunstrom - 10/14/2024
+- Changed the Transaction and BankAccount classes to use enum classes as differentiating types
+- Created the Bank class to manage and view bank accounts and transactions

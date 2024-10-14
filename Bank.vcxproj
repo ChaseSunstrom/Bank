@@ -143,8 +143,11 @@
     <ClInclude Include="src\types.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\bank.cpp" />
     <ClCompile Include="src\bank_account.cpp" />
+    <ClCompile Include="src\customer.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\transaction.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
