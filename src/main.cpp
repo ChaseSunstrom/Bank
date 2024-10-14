@@ -1,12 +1,13 @@
 #include "bank_account.hpp"
 #include "transaction.hpp"
+#include "customer.hpp"
 #include <iostream>
 
 i32 main()
 {
-
+    Bank::Customer customer(1, "John Doe");
     // maybe checking accounts should start with an id of 1, and savings with 2
-    Bank::CheckingAccount checking_account(12345, 1000, "John Doe");
+    Bank::CheckingAccount checking_account(12345, 1000, customer.GetCustomerName());
 
     std::cout << "Account ID: " << checking_account.GetAccountId() << std::endl;
     std::cout << "Account Balance: $" << checking_account.GetBalance() << std::endl;
