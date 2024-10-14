@@ -1,3 +1,5 @@
+Camden Kirkpatrick - I created the Bank Account class and its sub-classes before the GitHub repo was created by Chase.
+
 Chase Sunstrom - 9/12/2024
 - Moved definition of bank account into a source file 
 - Added header guards
